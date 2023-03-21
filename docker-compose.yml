@@ -1,0 +1,26 @@
+version: '3'
+services:
+  odoo:
+    # container_name: odoo-gouv-plan
+    image: dynamo74/odoo-v15:1.0
+    # build: ./
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+      - ./odoo.conf:/etc/odoo/odoo.conf
+    ports:
+      - "8069:8069"
+  postgres:
+    image: postgres:13
+    env_file:
+      - .env
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  data:
